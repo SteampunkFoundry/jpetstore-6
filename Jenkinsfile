@@ -29,8 +29,8 @@ podTemplate(
                     sh('mvn test')
                     junit '**/target/surefire-reports/TEST-*.xml'
                 }
-                stage('Deploy') {
-                    sh('mvn deploy -DskipITs')
+                stage('Verify') {
+                    sh('mvn verify -DskipITs')
                     archiveArtifacts artifacts: '**/target/*.war', onlyIfSuccessful: true
                 }
             }
