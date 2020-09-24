@@ -10,6 +10,18 @@ podTemplate(
     node('maven') {
         stage('Container') {
             container('maven') {
+                stage('Clone') {
+                    checkout(
+                        [
+                            $class                           : 'GitSCM',
+                            branches                         : scm.branches,
+                            doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                            extensions                       : scm.extensions,
+                            submoduleCfg                     : [],
+                            userRemoteConfigs                : scm.userRemoteConfigs
+                        ]
+                    )
+                }
                 stage('Compile') {
                     sh('mvn compile')
                 }
