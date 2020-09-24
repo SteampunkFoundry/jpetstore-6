@@ -16,9 +16,9 @@ pipeline {
                 }
             }
         }
-        stage ('Deploy') {
+        stage ('Verify') {
             steps {
-                sh 'mvn deploy -DskipITs'
+                sh 'mvn verify -DskipITs'
             }
             post {
                 always {
