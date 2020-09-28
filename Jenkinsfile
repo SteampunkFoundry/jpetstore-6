@@ -25,6 +25,14 @@ podTemplate(
                 stage('Compile') {
                     sh('mvn compile')
                 }
+                stage ('Static Analysis') {
+                    withSonarQubeEnv('sonarqube.dhsice.name') {
+                        sh 'mvn sonar:sonar'
+                    }
+                    timeout(time: 10, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
                 stage('Test') {
                     sh('mvn test')
                     junit '**/target/surefire-reports/TEST-*.xml'
