@@ -25,10 +25,12 @@ podTemplate(
                 stage('Compile') {
                     sh('mvn compile')
                 }
-                stage ('Static Analysis') {
-                    withSonarQubeEnv('sonarqube.dhsice.name') {
+                stage ('SonarQube analysis') {
+                    withSonarQubeEnv('sonarqube') {
                         sh 'mvn sonar:sonar'
                     }
+                }
+                stage ('SonarQube quality gate') {
                     timeout(time: 10, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
                     }
