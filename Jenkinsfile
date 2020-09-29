@@ -26,7 +26,7 @@ podTemplate(
                 }
                 configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
                     stage('Compile') {
-                        sh('mvn -s ${MAVEN_CONFIG} compile')                        
+                        sh('mvn -s ${MAVEN_CONFIG} compile')
                     }
                     stage ('SonarQube analysis') {
                         withSonarQubeEnv('sonarqube') {
@@ -38,12 +38,12 @@ podTemplate(
                             waitForQualityGate abortPipeline: true
                         }
                     }
-                    stage('Test') {                   
+                    stage('Test') {
                         sh('mvn -s ${MAVEN_CONFIG} test')
                         junit '**/target/surefire-reports/TEST-*.xml'
                     }
-                    stage('Verify') {
-                        sh('mvn -s ${MAVEN_CONFIG} verify -DskipITs')
+                    stage('Deploy') {
+                        sh('mvn -s ${MAVEN_CONFIG} deploy -DskipITs')
                         archiveArtifacts artifacts: '**/target/*.war', onlyIfSuccessful: true
                     }
                 }
