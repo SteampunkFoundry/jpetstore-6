@@ -50,11 +50,11 @@
   </ciManagement>
   <distributionManagement>
     <snapshotRepository>
-      <id>nexus-snapshots</id>
+      <id>maven-snapshots</id>
       <url>https://nexus.dhsice.name/repository/maven-snapshots/</url>
     </snapshotRepository>
     <repository>
-      <id>nexus-releases</id>
+      <id>maven-releases</id>
       <url>https://nexus.dhsice.name/repository/maven-releases/</url>
     </repository>
     <site>
