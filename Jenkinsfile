@@ -25,6 +25,7 @@ podTemplate(
                     )
                 }
                 configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
+                    sh 'cat ${MAVEN_CONFIG}'
                     stage('Compile') {
                         sh('mvn -s ${MAVEN_CONFIG} compile')
                     }
