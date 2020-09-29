@@ -43,7 +43,7 @@ podTemplate(
                         junit '**/target/surefire-reports/TEST-*.xml'
                     }
                     stage('Deploy') {
-                        sh('mvn -s ${MAVEN_CONFIG} deploy -DskipITs')
+                        sh('mvn -s ${MAVEN_CONFIG} deploy')
                         archiveArtifacts artifacts: '**/target/*.war', onlyIfSuccessful: true
                     }
                 }
