@@ -42,8 +42,8 @@ podTemplate(
                         sh('mvn -s ${MAVEN_CONFIG} test')
                         junit '**/target/surefire-reports/TEST-*.xml'
                         jacoco(
-                            execPattern: '**/*.exec',
-                            classPattern: '**/classes/*/main',
+                            execPattern: 'target/*.exec',
+                            classPattern: 'target/classes',
                             sourcePattern: 'src/main/java',
                             exclusionPattern: 'src/test*'
                         )
