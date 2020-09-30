@@ -40,13 +40,13 @@ podTemplate(
                     }
                     stage('Test') {
                         sh('mvn -s ${MAVEN_CONFIG} test')
+                        junit '**/target/surefire-reports/TEST-*.xml'
                         jacoco(
                             execPattern: '**/*.exec',
                             classPattern: '**/classes/*/main',
                             sourcePattern: 'src/main/java',
                             exclusionPattern: 'src/test*'
                         )
-                        junit '**/target/surefire-reports/TEST-*.xml'
                     }
                     stage('Deploy') {
                         sh('mvn -s ${MAVEN_CONFIG} deploy -DskipITs')
