@@ -493,13 +493,12 @@
               <apiUrl>${contrast.apiUrl}</apiUrl>
               <orgUuid>${contrast.orgUuid}</orgUuid>
               <appName>${contrast.appName}</appName>
-              <serverName>${contrast.serverName}</serverName>
             </configuration>
           </plugin>
         </plugins>
       </build>
       <properties>
-        <contrast.cargo.jvmargs>-javaagent:${project.build.directory}/contrast.jar</contrast.cargo.jvmargs>
+        <contrast.cargo.jvmargs>-javaagent:${project.build.directory}/contrast.jar -Dcontrast.server.name=jenkins</contrast.cargo.jvmargs>
 
         <contrast.apiUrl>https://ce.contrastsecurity.com/Contrast</contrast.apiUrl>
         <contrast.appName>JPetStore</contrast.appName>
