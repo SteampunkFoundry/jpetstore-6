@@ -493,6 +493,7 @@
               <apiUrl>${contrast.apiUrl}</apiUrl>
               <orgUuid>${contrast.orgUuid}</orgUuid>
               <appName>${contrast.appName}</appName>
+              <serverName>jenkins</serverName>
             </configuration>
           </plugin>
         </plugins>
