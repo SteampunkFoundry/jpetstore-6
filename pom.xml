@@ -470,7 +470,7 @@
           <plugin>
             <groupId>com.contrastsecurity</groupId>
             <artifactId>contrast-maven-plugin</artifactId>
-            <version>2.10</version>
+            <version>2.11</version>
             <executions>
               <execution>
                 <id>install-contrast-jar</id>
@@ -493,7 +493,8 @@
               <apiUrl>${contrast.apiUrl}</apiUrl>
               <orgUuid>${contrast.orgUuid}</orgUuid>
               <appName>${contrast.appName}</appName>
-              <serverName>geneserver</serverName>
+              <serverName>${contrast.serverName}</serverName>
+              <serverPath>/</serverPath>
             </configuration>
           </plugin>
         </plugins>

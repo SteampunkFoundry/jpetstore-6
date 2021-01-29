@@ -2,7 +2,6 @@
 // Only one person can use the cache at a time.
 properties([disableConcurrentBuilds()])
 
-
 def utils = new mavenUtility(this)
 def pvc = utils.getMavenCache()
 def label = "jpetstorepod-${UUID.randomUUID().toString()}"
@@ -21,10 +20,6 @@ podTemplate(
     nodeSelector: 'role=workers'
 ) {
     node(label) {
-          stage('tester'){
-              echo "PVC is: ${pvc}"
-          }
-
         stage('Clone') {
             checkout(
                 [
@@ -43,7 +38,7 @@ podTemplate(
                 container('maven') {
                     configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
                         stage('Compile') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID}  compile')
+                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} compile')
                         }
                         stage('Test') {
                             sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} test')
