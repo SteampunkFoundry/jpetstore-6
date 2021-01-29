@@ -495,7 +495,6 @@
               <appName>${contrast.appName}</appName>
               <serverName>${contrast.serverName}</serverName>
               <serverPath>/</serverPath>
-              <environment>development</environment>
             </configuration>
           </plugin>
         </plugins>
