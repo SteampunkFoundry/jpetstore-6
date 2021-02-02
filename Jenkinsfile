@@ -37,29 +37,6 @@ podTemplate(
                             usernamePassword(credentialsId: 'contrast-security-org', passwordVariable: 'CONTRAST_APIKEY', usernameVariable: 'CONTRAST_ORGUUID')]) {
                 container('maven') {
                     configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
-                        stage('Compile') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ compile')
-                        }
-                        stage('Test') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ test')
-                            junit '**/target/surefire-reports/TEST-*.xml'
-                            jacoco(
-                                execPattern: 'target/*.exec',
-                                classPattern: 'target/classes',
-                                sourcePattern: 'src/main/java',
-                                exclusionPattern: 'src/test*'
-                            )
-                        }
-                        stage ('SonarQube analysis') {
-                            withSonarQubeEnv('sonarqube') {
-                                sh 'mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ sonar:sonar'
-                            }
-                        }
-                        stage ('SonarQube quality gate') {
-                            timeout(time: 10, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: true
-                            }
-                        }
                         stage('Deploy') {
                             sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ deploy -DskipITs')
                             archiveArtifacts artifacts: '**/target/dependency-check-report.*', onlyIfSuccessful: false
