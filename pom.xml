@@ -343,6 +343,7 @@
     <cargo.maven.containerUrl>https://archive.apache.org/dist/tomcat/tomcat-${tomcat.major-version}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip</cargo.maven.containerUrl>
     <tomcat.major-version />
     <tomcat.version />
+    <argLine>-Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ -Dcontrast.server.name=jenkins</argLine>
 
     <surefire.version>3.0.0-M3</surefire.version>
     <cargo-maven2-plugin.version>1.8.2</cargo-maven2-plugin.version>
