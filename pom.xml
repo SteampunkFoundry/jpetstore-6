@@ -511,9 +511,9 @@
       <properties>
         <contrast.cargo.jvmargs>-javaagent:${project.build.directory}/contrast.jar -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/</contrast.cargo.jvmargs>
 
-        <contrast.apiUrl>https://ce.contrastsecurity.com/Contrast</contrast.apiUrl>
+        <contrast.apiUrl>https://apptwo.contrastsecurity.com/Contrast</contrast.apiUrl>
         <contrast.appName>JPetStore</contrast.appName>
-        <contrast.serverName>amVua2lucw==</contrast.serverName>
+        <contrast.serverName>jenkins</contrast.serverName>
       </properties>
     </profile>
   </profiles>
