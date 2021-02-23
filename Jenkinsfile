@@ -38,7 +38,7 @@ podTemplate(
                 container('maven') {
                     configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
                         stage('Deploy') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ deploy -DskipITs')
+                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.server.name=jenkins -Dcontrast.application.path=/ deploy -DskipITs')
                             archiveArtifacts artifacts: '**/target/dependency-check-report.*', onlyIfSuccessful: false
                             archiveArtifacts artifacts: '**/target/*.war', onlyIfSuccessful: true
                         }

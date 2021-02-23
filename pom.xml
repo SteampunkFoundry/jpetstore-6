@@ -509,11 +509,11 @@
         </plugins>
       </build>
       <properties>
-        <contrast.cargo.jvmargs>-javaagent:${project.build.directory}/contrast.jar -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/</contrast.cargo.jvmargs>
+        <contrast.cargo.jvmargs>-javaagent:${project.build.directory}/contrast.jar -Dcontrast.agent.logger.stdout=true -Dcontrast.agent.java.standalone_app_name=JPetStore -Dcontrast.application.path=/ -Dcontrast.server.name=jenkins</contrast.cargo.jvmargs>
 
         <contrast.apiUrl>https://ce.contrastsecurity.com/Contrast</contrast.apiUrl>
         <contrast.appName>JPetStore</contrast.appName>
-        <contrast.serverName>ip-10-0-1-216</contrast.serverName>
+        <contrast.serverName>jenkins</contrast.serverName>
       </properties>
     </profile>
   </profiles>
