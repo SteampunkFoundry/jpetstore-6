@@ -6,7 +6,6 @@ properties([disableConcurrentBuilds()])
 def utils = new mavenUtility(this)
 def pvc = utils.getMavenCache()
 def label = "jpetstorepod-${UUID.randomUUID().toString()}"
-println("Here I am")
 
 podTemplate(
     label: label,
@@ -22,9 +21,9 @@ podTemplate(
     nodeSelector: 'role=workers'
 ) {
     node(label) {
-          stage('tester'){
-              echo "PVC is: ${pvc}"
-          }
+        stage('tester'){
+          echo "PVC is: ${pvc}"
+        }
 
         stage('Clone') {
             checkout(
@@ -39,38 +38,10 @@ podTemplate(
             )
         }
         stage('Container') {
-            withCredentials([usernamePassword(credentialsId: 'contrast-security-ce', passwordVariable: 'CONTRAST_SERVICEKEY', usernameVariable: 'CONTRAST_USERNAME'),
-                            usernamePassword(credentialsId: 'contrast-security-org', passwordVariable: 'CONTRAST_APIKEY', usernameVariable: 'CONTRAST_ORGUUID')]) {
-                container('maven') {
-                    configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
-                        stage('Compile') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID}  compile')
-                        }
-                        stage('Test') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} test')
-                            junit '**/target/surefire-reports/TEST-*.xml'
-                            jacoco(
-                                execPattern: 'target/*.exec',
-                                classPattern: 'target/classes',
-                                sourcePattern: 'src/main/java',
-                                exclusionPattern: 'src/test*'
-                            )
-                        }
-                        stage ('SonarQube analysis') {
-                            withSonarQubeEnv('sonarqube') {
-                                sh 'mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} sonar:sonar'
-                            }
-                        }
-                        stage ('SonarQube quality gate') {
-                            timeout(time: 10, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: true
-                            }
-                        }
-                        stage('Deploy') {
-                            sh('mvn -s ${MAVEN_CONFIG} -P tomcat90,with-contrast -Dcontrast.username=${CONTRAST_USERNAME} -Dcontrast.serviceKey=${CONTRAST_SERVICEKEY} -Dcontrast.apiKey=${CONTRAST_APIKEY} -Dcontrast.orgUuid=${CONTRAST_ORGUUID} deploy -DskipITs')
-                            archiveArtifacts artifacts: '**/target/dependency-check-report.*', onlyIfSuccessful: false
-                            archiveArtifacts artifacts: '**/target/*.war', onlyIfSuccessful: true
-                        }
+            container('maven') {
+                configFileProvider([configFile(fileId: 'mavennexus', variable: 'MAVEN_CONFIG')]) {
+                    stage('Compile') {
+                        sh('mvn -s ${MAVEN_CONFIG} org.owasp:dependency-check-maven:check')
                     }
                 }
             }
