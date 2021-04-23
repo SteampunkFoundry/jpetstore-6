@@ -347,7 +347,7 @@
     <hsqldb.version>2.5.1</hsqldb.version>
     <module.name>org.mybatis.jpetstore</module.name>
 
-    <dependency.check.maven.version>6.0.2</dependency.check.maven.version>
+    <dependency.check.maven.version>6.1.5</dependency.check.maven.version>
   </properties>
 
   <profiles>
