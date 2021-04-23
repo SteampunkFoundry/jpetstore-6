@@ -233,10 +233,9 @@
           <version>${dependency.check.maven.version}</version>
           <configuration>
             <!-- <failBuildOnCVSS>${dependency.check.maven.failBuildOnCVSS}</failBuildOnCVSS> -->
-            <formats>HTML,XML,JSON</formats> <!--
+            <formats>HTML,XML,JSON</formats>
             <cveUrlModified>${dependency.check.cveUrlModified}</cveUrlModified>
             <cveUrlBase>${dependency.check.cveUrlBase}</cveUrlBase>
-            -->
           </configuration>
           <executions>
             <execution>
